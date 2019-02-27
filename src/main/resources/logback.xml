@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 日志路径 -->
+    <property name="LOG_HOME" value="logs"/>
+    <!-- 控制台日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] [%class] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <!-- 按照每天生成常规日志文件 111-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/car-miniprogram.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_HOME}/car-miniprogram.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 10MB -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] [%class] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- logback为java中的包 -->
+    <logger name="logback"/>
+    <!--logback.LogbackDemo：类的全路径 -->
+    <logger name="org.springframework" level="Info" additivity="true">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="com.rajaev.job" level="debug" additivity="true">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="org.apache.ibatis" level="INFO" additivity="true">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <!--<root level="ERROR">-->
+    <!--<appender-ref ref="STDOUT" />-->
+    <!--<appender-ref ref="FILE" />-->
+    <!--</root>-->
+</configuration>
